@@ -1,9 +1,9 @@
-import { Injectable, Inject } from 'injection-js';
-import * as express from 'express';
 import * as bodyParser from 'body-parser';
+import * as express from 'express';
 import { Router } from 'express-serve-static-core';
-import { Logger } from 'ts-log-debug';
+import { Inject, Injectable } from 'injection-js';
 import * as path from 'path';
+import { Logger } from 'ts-log-debug';
 
 @Injectable()
 export class AppMain {
@@ -13,10 +13,10 @@ export class AppMain {
   private db: Router;
   private config: Router;
 
-  constructor( @Inject('Logger') log: Logger,
-    @Inject('Application') app: express.Application,
-    @Inject('DatabaseApi') db: Router,
-    @Inject('ConfigurationApi') config: Router) {
+  constructor(@Inject('Logger') log: Logger,
+              @Inject('Application') app: express.Application,
+              @Inject('DatabaseApi') db: Router,
+              @Inject('ConfigurationApi') config: Router) {
 
     this.db = db;
     this.config = config;
@@ -28,7 +28,7 @@ export class AppMain {
 
   }
 
-  startServer() {
+  startServer(): void {
     this.log.debug('Starte Server.');
 
     this.app.set('port', process.env.PORT || 4201);
@@ -46,4 +46,3 @@ export class AppMain {
     });
   }
 }
-
