@@ -72,7 +72,7 @@
         ],
         "no-require-imports": true,
         "no-default-export": true,
-        "no-reference": false,
+        "no-reference": true,
         "typedef": [
             true,
             "call-signature",
