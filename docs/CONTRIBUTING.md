@@ -2,7 +2,7 @@
 
 ## Kommentare
 * Alle Kommentare und Commit-Messages sind auf deutsch zu verfassen.
-* Jede Klasse und Public-Members/Methoden sind zu dokumentieren.
+* Jede Klasse und Public-Members/Methoden sind zu kommentieren im [JSDoc](http://usejsdoc.org/ "") Format.
 
 ## Layout
 * Öffnende Klammern kommen in die selbe Zeile
@@ -11,7 +11,7 @@
 * 2 Leerzeichen zum Einrücken
 * Leerzeile am Ende jeder Datei
 * Semicolon am Ende jeder Zeile
-* Double Quotes für Strings
+* Single Quotes für Strings
 
 ## [Anuglar-tslint-rules](https://www.npmjs.com/package/angular-tslint-rules#rules "")
 * Erfordert tslint mindestens in Version 5.8.0
@@ -31,9 +31,9 @@
 * Sprechende Namen sollen für Variablen, Klassen, Methoden verwendet werden. Ausgenommen sind Zählvariablen.
 * Parameter sind ```const``` und sollten nicht verändert werden.
 * Verwende ```let``` für Variablen-Deklarationen und ```const``` für Konstanten.
-* Single Responsiblity Principle
-* Dont Repeat Yourself (DRY)
-* Angular Style Guide
+* [Single Responsiblity Principle](https://de.wikipedia.org/wiki/Single-Responsibility-Prinzip "")
+* [Dont Repeat Yourself (DRY)](https://de.wikipedia.org/wiki/Don%E2%80%99t_repeat_yourself "")
+* [Angular Style Guide](https://angular.io/guide/styleguide "")
 
 ## Pull-Request
 * Ein Pull-Request wird nur akzeptiert wenn:
