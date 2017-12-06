@@ -10,7 +10,18 @@ pipeline {
             steps {
                 sh 'npm install'
                 sh 'npm run build'
+            }
+        }
+
+        stage('Quality Gate') {
+            steps {
                 sh 'npm run sonar'
+                timeout(time: 1, unit: 'HOURS') {
+                    def qg = waitForQualityGate()
+                    if (qg.status != 'OK') {
+                        error 'Pipeline abgebrochen auf Grund von Quality Gate Fehlern: ${qg.status}'
+                    }
+                }
             }
         }
     }
