@@ -16,8 +16,8 @@
 ## [Anuglar-tslint-rules](https://www.npmjs.com/package/angular-tslint-rules#rules "")
 * Erfordert tslint mindestens in Version 5.8.0
 * Anpassungen
-    * ```/// <reference path=>``` ist nur für OfficeJS erlaubt (no-reference)
-    * Array-Definitionen sehen wie in Java aus ```T[]``` (array-type)
+    * `/// <reference path=>` ist nur für OfficeJS erlaubt (no-reference)
+    * Array-Definitionen sehen wie in Java aus `T[]` (array-type)
     * Conditianal Statements werden nicht für Zuweisungen bevorzugt (prefer-conditional-expression)
     * Vertikales Alignment für Variablen, Anweisungen und Parameter (align)
     * Radix Parameter bei parseInt muss nicht immer angegeben werden (radix)
@@ -29,8 +29,8 @@
 
 ## Code
 * Sprechende Namen sollen für Variablen, Klassen, Methoden verwendet werden. Ausgenommen sind Zählvariablen.
-* Parameter sind ```const``` und sollten nicht verändert werden.
-* Verwende ```let``` für Variablen-Deklarationen und ```const``` für Konstanten.
+* Parameter sind `const` und sollten nicht verändert werden.
+* Verwende `let` für Variablen-Deklarationen und `const` für Konstanten.
 * [Single Responsiblity Principle](https://de.wikipedia.org/wiki/Single-Responsibility-Prinzip "")
 * [Dont Repeat Yourself (DRY)](https://de.wikipedia.org/wiki/Don%E2%80%99t_repeat_yourself "")
 * [Angular Style Guide](https://angular.io/guide/styleguide "")
