@@ -15,7 +15,9 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-                sh 'npm run sonar'
+                withSonarQubeEnv('SonarQube') {
+                    sh 'npm run sonar'
+                }
                 timeout(time: 1, unit: 'HOURS') {
                     script {
                         def qg = waitForQualityGate()
