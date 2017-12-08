@@ -43,3 +43,7 @@ Thumbs.db
 
 # Sonar
 .scannerwork/
+
+# Certificates
+/certs/*.crt
+/certs/*.key
