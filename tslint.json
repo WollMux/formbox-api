@@ -177,7 +177,6 @@
                 "constructor": "never"
             }
         ],
-        "space-within-parens": 0,
         "import-spacing": true,
         "no-trailing-whitespace": true,
         "newline-before-return": true,
