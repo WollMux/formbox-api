@@ -5,7 +5,7 @@
   "license": "EUPL-1.1",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Eymux/formbox-api"
+    "url": "https://github.com/WollMux/formbox-api"
   },
   "scripts": {
     "start": "npm run build && npm run watch",
