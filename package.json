@@ -12,7 +12,7 @@
     "build": "npm run build-ts && npm run tslint",
     "serve": "nodemon dist/index.js",
     "watch": "concurrently -k -p \"[{name}]\" -n \"TypeScript,Node\" -c \"blue.bold,cyan.bold,green.bold\" \"npm run watch-ts\" \"npm run serve\"",
-    "test": "jest --forceExit",
+    "test": "nyc jasmine-ts --config=jasmine.json",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "tslint": "tslint -c tslint.json -p tsconfig.json",
@@ -22,7 +22,6 @@
     "sonar": "sonarqube-scanner-node"
   },
   "dependencies": {
-    "@types/express-serve-static-core": "^4.0.57",
     "async": "^2.6.0",
     "body-parser": "^1.18.2",
     "consign": "^0.1.6",
@@ -44,22 +43,36 @@
     "@types/body-parser": "^1.16.8",
     "@types/dotenv": "^4.0.2",
     "@types/express": "^4.0.39",
-    "@types/jest": "^19.2.2",
+    "@types/express-serve-static-core": "^4.0.57",
+    "@types/jasmine": "^2.8.2",
     "@types/lodash": "^4.14.63",
     "@types/morgan": "^1.7.32",
     "@types/node": "^7.0.12",
     "@types/passport": "^0.4.1",
     "@types/request": "0.0.45",
-    "@types/supertest": "^2.0.0",
     "concurrently": "^3.4.0",
-    "jest": "^21.2.1",
+    "jasmine-reporters": "^2.2.1",
+    "jasmine-spec-reporter": "^4.2.1",
+    "jasmine-ts": "^0.2.1",
     "nodemon": "^1.11.0",
+    "nyc": "^11.3.0",
     "shelljs": "^0.7.7",
     "sonarqube-scanner-node": "0.0.7",
-    "supertest": "^2.0.1",
-    "ts-jest": "^21.2.3",
     "tslint": "^5.8.0",
     "tslint-language-service": "^0.9.6",
     "typescript": "^2.6.1"
+  },
+  "nyc": {
+    "reporter": [
+        "lcov",
+        "text-summary"
+    ],
+    "include": [
+        "src/**/*.ts"
+    ],
+    "extension": [
+        ".ts"
+    ],
+    "report-dir": "./test/.results/coverage"
   }
 }

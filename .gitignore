@@ -43,3 +43,7 @@ Thumbs.db
 
 # Sonar
 .scannerwork/
+
+# Tests
+test/.results/
+.nyc_output
