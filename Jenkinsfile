@@ -11,7 +11,7 @@ pipeline {
         stage('Build') {
             steps {
                 sh 'npm install'
-                sh 'npm run build'
+                sh 'npm run build-jenkins'
             }
         }
 
@@ -23,13 +23,23 @@ pipeline {
                 always {
                     junit 'test/.results/*.xml'
                     withSonarQubeEnv('SonarQube') {
-                        sh 'npm run sonar'
-                    }
-                    timeout(time: 1, unit: 'HOURS') {
                         script {
-                            def qg = waitForQualityGate()
-                            if (qg.status != 'OK') {
-                                error 'Pipeline abgebrochen auf Grund von Quality Gate Fehlern: ${qg.status}'
+                            if (GIT_BRANCH == 'master') {
+                                sh 'npm run sonar'
+                                timeout(time: 1, unit: 'HOURS') {
+                                    script {
+                                        def qg = waitForQualityGate()
+                                        if (qg.status != 'OK') {
+                                            error 'Pipeline abgebrochen auf Grund von Quality Gate Fehlern: ${qg.status}'
+                                        }
+                                    }
+                                }
+                            } else {
+                                withCredentials([usernamePassword(credentialsId: '3eaee9fd-bbdd-4825-a4fd-6b011f9a84c3', passwordVariable: 'GITHUB_ACCESS_TOKEN', usernameVariable: 'USER')]) {
+                                    sh "npm run sonar -- -Dsonar.analysis.mode=preview -Dsonar.github.pullRequest=${env.CHANGE_ID} \
+                                        -Dsonar.github.repository=wollmux/formbox-api \
+                                        -Dsonar.github.oauth=${GITHUB_ACCESS_TOKEN}"
+                                }
                             }
                         }
                     }
