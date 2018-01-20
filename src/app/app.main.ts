@@ -26,27 +26,39 @@ export class AppMain {
     this.log.debug('AppMain init.');
 
     this.configServer();
-    this.startServer();
+    this.setApiRoutes();
+    this.startServer(this.readCertificates());
   }
 
   configServer(): void {
     this.app.set('port', process.env.PORT || 4201);
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
+  }
 
+  setApiRoutes(): void {
     this.app.use('/db', this.db);
     this.app.use('/config', this.config);
+  }
 
+  setFSPathes(): void {
     this.app.use('/assets/fragmente', express.static(path.join(process.env.ASSETS, '/fragmente')));
     this.app.use('/assets/vorlagen', express.static(path.join(process.env.ASSETS, '/vorlagen')));
   }
 
-  startServer(): void {
+  readCertificates(): https.ServerOptions {    
+    let serverOptions: https.ServerOptions = {
+      key: filesystem.readFileSync(process.env.CERT_KEY_PATH, 'utf8'),
+      cert: filesystem.readFileSync(process.env.CERT_CRT_PATH, 'utf8')
+    };
+   
+    return serverOptions; 
+  }
+
+  startServer(serverOptions: https.ServerOptions): void {
     this.log.debug('Starte Server.');
-    const privateKey = filesystem.readFileSync(process.env.CERT_KEY_PATH, 'utf8');
-    const certificate = filesystem.readFileSync(process.env.CERT_CRT_PATH, 'utf8');
-    const credentials = { key: privateKey, cert: certificate };
-    const httpsServer = https.createServer(credentials, this.app);
+   
+    const httpsServer = https.createServer(serverOptions, this.app);
     httpsServer.listen(this.app.get('port'), () => {
       this.log.info(('App is running at https://localhost:%d.'), this.app.get('port'));
     });
