@@ -10,6 +10,6 @@ export function DatabaseRouter(log: Logger): Router {
   api.get('/', asyncHandler( (req, res, next) => {
     res.json({ message: 'FormBox Databse API' });
   }));
-  
+
   return api;
 }

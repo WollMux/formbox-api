@@ -12,7 +12,7 @@ export class ConfigurationService {
   }
 
   async getFragment(name: string): Promise<string> {
-    var filePath = `assets/${this.config.fragments[ name ]}`;
+    const filePath = `assets/${this.config.fragments[ name ]}`;
 
     return this.encodeFileToBase64(filePath);
   }

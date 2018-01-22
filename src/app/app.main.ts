@@ -46,18 +46,18 @@ export class AppMain {
     this.app.use('/assets/vorlagen', express.static(path.join(process.env.ASSETS, '/vorlagen')));
   }
 
-  readCertificates(): https.ServerOptions {    
-    let serverOptions: https.ServerOptions = {
+  readCertificates(): https.ServerOptions {
+    const serverOptions: https.ServerOptions = {
       key: filesystem.readFileSync(process.env.CERT_KEY_PATH, 'utf8'),
       cert: filesystem.readFileSync(process.env.CERT_CRT_PATH, 'utf8')
     };
-   
-    return serverOptions; 
+
+    return serverOptions;
   }
 
   startServer(serverOptions: https.ServerOptions): void {
     this.log.debug('Starte Server.');
-   
+
     const httpsServer = https.createServer(serverOptions, this.app);
     httpsServer.listen(this.app.get('port'), () => {
       this.log.info(('App is running at https://localhost:%d.'), this.app.get('port'));
