@@ -17,6 +17,10 @@ export class ConfigurationService {
     return this.encodeFileToBase64(filePath);
   }
 
+  async getFragmentList(): Promise<any> {
+    return this.config.fragments;
+  }
+
   async encodeFileToBase64(filePath: string): Promise<string> {
     return base64.encode(fs.readFileSync(filePath));
   }

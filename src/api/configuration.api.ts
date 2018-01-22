@@ -12,21 +12,35 @@ export function ConfigurationRouter(log: Logger, config: ConfigurationService): 
     res.json({ message: 'FormBox Configuration API' });
   }));
 
-  api.get('/fragmente', asyncHandler((req, res, next) => {
+  api.get('/fragmente/:name', asyncHandler(async (req, res, next) => {
     try {
-        const name = req.query.name;
+        const name = req.params.name;
 
         if (name) {
-          config.getFragment(name).then(base64String =>{
+          config.getFragment(name).then(base64String => {
             return res.json({ path: base64String });
           }).catch(err => {
             console.log(err);
           });
         }
-    } catch(err) {
+    } catch (err) {
+      console.log(err);
       next(err);
     }
   }));
-  
+
+  api.get('/fragmentList', asyncHandler(async (req, res, next) => {
+    try {
+      config.getFragmentList().then(result => {
+        return res.json({fragmentList: result});
+      }).catch((err: any) => {
+        console.log(err);
+      });
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }));
+
   return api;
 }
