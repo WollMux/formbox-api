@@ -20,24 +20,24 @@ export function ConfigurationRouter(log: Logger, config: ConfigurationService): 
           config.getFragment(name).then(base64String => {
             return res.json({ path: base64String });
           }).catch(err => {
-            console.log(err);
+            log.error(err);
           });
         }
     } catch (err) {
-      console.log(err);
+      log.error(err);
       next(err);
     }
   }));
 
-  api.get('/fragmentList', asyncHandler(async (req, res, next) => {
+  api.get('/fragmente', asyncHandler(async (req, res, next) => {
     try {
-      config.getFragmentList().then(result => {
-        return res.json({fragmentList: result});
+      config.getFragments().then(result => {
+        return res.json({ fragmentList: result });
       }).catch((err: any) => {
-        console.log(err);
+        log.error(err);
       });
     } catch (err) {
-      console.log(err);
+      log.error(err);
       next(err);
     }
   }));
@@ -46,28 +46,27 @@ export function ConfigurationRouter(log: Logger, config: ConfigurationService): 
     try {
       config.getTemplates().then(templates => {
         res.json(Object.keys(templates));
-      })
+      });
     } catch (err) {
-      console.log(err);
+      log.error(err);
       next(err);
     }
   }));
 
   api.get('/vorlagen/:name', asyncHandler(async (req, res, next) => {
     const name = req.params.name;
-    
+
     try {
       if (name) {
-      config.getTemplate(name).then(template => {
-        res.json({ path: template });
-      })
-    }
+        config.getTemplate(name).then(template => {
+          res.json({ path: template });
+        });
+      }
     } catch (err) {
-      console.log(err);
+      log.error(err);
       next(err);
     }
   }));
-
 
   return api;
 }

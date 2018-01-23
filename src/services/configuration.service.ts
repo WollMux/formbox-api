@@ -1,9 +1,6 @@
 import * as consign from 'consign';
 import { Injectable } from 'injection-js';
-import * as fs from 'fs';
-import * as base64 from 'base64-async';
 import { CommonService } from '../services/common.service';
-
 
 @Injectable()
 export class ConfigurationService {
@@ -16,12 +13,12 @@ export class ConfigurationService {
   async getFragment(name: string): Promise<string> {
     const filePath = `assets/${this.config.fragments[ name ]}`;
 
-    return this.encodeFileToBase64(filePath);
+    return this.common.encodeFileToBase64(filePath);
   }
 
   async getTemplate(name: string): Promise<string> {
-    if(this.config.templates[ name ]) {
-      return `${this.common.getAssetsFolder()}/${this.config.templates[ name ]}`; 
+    if (this.config.templates[ name ]) {
+      return `${this.common.getAssetsFolder()}/${this.config.templates[ name ]}`;
     }
 
     return undefined;
@@ -33,9 +30,5 @@ export class ConfigurationService {
 
   async getTemplates(): Promise<any> {
     return this.config.templates;
-  }
-
-  async encodeFileToBase64(filePath: string): Promise<string> {
-    return base64.encode(fs.readFileSync(filePath));
   }
 }
