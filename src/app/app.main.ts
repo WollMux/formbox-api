@@ -7,6 +7,7 @@ import * as path from 'path';
 import * as filesystem from 'fs';
 import * as https from 'https';
 import * as morgan from 'morgan';
+import * as cors from 'cors';
 
 @Injectable()
 export class AppMain {
@@ -36,6 +37,7 @@ export class AppMain {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(morgan('combined'));
+    this.app.use(cors({ optionsSuccessStatus: 200 }))
   }
 
   setApiRoutes(): void {
