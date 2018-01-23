@@ -6,6 +6,7 @@ import { Inject, Injectable } from 'injection-js';
 import * as path from 'path';
 import * as filesystem from 'fs';
 import * as https from 'https';
+import * as morgan from 'morgan';
 
 @Injectable()
 export class AppMain {
@@ -34,6 +35,7 @@ export class AppMain {
     this.app.set('port', process.env.PORT || 4201);
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.use(morgan('combined'));
   }
 
   setApiRoutes(): void {
