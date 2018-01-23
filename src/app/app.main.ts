@@ -42,8 +42,8 @@ export class AppMain {
   }
 
   setFSPathes(): void {
-    this.app.use('/assets/fragmente', express.static(path.join(process.env.ASSETS, '/fragmente')));
-    this.app.use('/assets/vorlagen', express.static(path.join(process.env.ASSETS, '/vorlagen')));
+    this.app.use(`/${process.env.ASSETS}/fragmente`, express.static(path.join(process.env.ASSETS, '/fragmente')));
+    this.app.use(`/${process.env.ASSETS}/vorlagen`, express.static(path.join(process.env.ASSETS, '/vorlagen')));
   }
 
   readCertificates(): https.ServerOptions {
@@ -59,8 +59,8 @@ export class AppMain {
     this.log.debug('Starte Server.');
 
     const httpsServer = https.createServer(serverOptions, this.app);
-    httpsServer.listen(this.app.get('port'), () => {
-      this.log.info(('App is running at https://localhost:%d.'), this.app.get('port'));
+    httpsServer.listen(this.app.get('port'), process.env.HOST, () => {
+      this.log.info(('App is running at https://%s:%d.'), process.env.HOST, this.app.get('port'));
     });
   }
 }
