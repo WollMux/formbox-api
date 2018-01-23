@@ -20,14 +20,14 @@ export class ConfigurationService {
   }
 
   async getTemplate(name: string): Promise<string> {
-    if(this.config.templates[name]) {
-      return `${this.common.getAssetsFolder()}/${this.config.templates[name]}`; 
+    if(this.config.templates[ name ]) {
+      return `${this.common.getAssetsFolder()}/${this.config.templates[ name ]}`; 
     }
 
     return undefined;
   }
 
-  async getFragmentList(): Promise<any> {
+  async getFragments(): Promise<any> {
     return this.config.fragments;
   }
 
