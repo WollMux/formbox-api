@@ -11,14 +11,16 @@ export class ConfigurationService {
   }
 
   async getFragment(name: string): Promise<string> {
-    const filePath = `assets/${this.config.fragments[ name ]}`;
+    if (this.config.fragments[ name ]) {
+      return this.common.encodeFileToBase64(`assets/${this.config.fragments[ name ]}`);
+    }
 
-    return this.common.encodeFileToBase64(filePath);
+    return undefined;
   }
 
   async getTemplate(name: string): Promise<string> {
     if (this.config.templates[ name ]) {
-      return `${this.common.getAssetsFolder()}/${this.config.templates[ name ]}`;
+      return this.common.encodeFileToBase64(`${this.common.getAssetsFolder()}/${this.config.templates[ name ]}`);
     }
 
     return undefined;
