@@ -10,6 +10,7 @@ import { ConfigurationRouter } from './api/configuration.api';
 import { DatabaseRouter } from './api/database.api';
 import { AppMain } from './app/app.main';
 import { ConfigurationService } from './services/configuration.service';
+import { CommonService } from './services/common.service';
 
 dotenv.config();
 
@@ -38,6 +39,7 @@ log.debug(__dirname);
 const injector = ReflectiveInjector.resolveAndCreate([
   AppMain,
   ConfigurationService,
+  CommonService,
   { provide: 'Logger', useValue: log },
   { provide: 'Application', useValue: app },
   { provide: 'DatabaseApi', useFactory: DatabaseRouter, deps: [ 'Logger' ] },

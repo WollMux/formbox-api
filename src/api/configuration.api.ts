@@ -42,5 +42,32 @@ export function ConfigurationRouter(log: Logger, config: ConfigurationService): 
     }
   }));
 
+  api.get('/vorlagen', asyncHandler(async (req, res, next) => {
+    try {
+      config.getTemplates().then(templates => {
+        res.json(Object.keys(templates));
+      })
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }));
+
+  api.get('/vorlagen/:name', asyncHandler(async (req, res, next) => {
+    const name = req.params.name;
+    
+    try {
+      if (name) {
+      config.getTemplate(name).then(template => {
+        res.json({ path: template });
+      })
+    }
+    } catch (err) {
+      console.log(err);
+      next(err);
+    }
+  }));
+
+
   return api;
 }
