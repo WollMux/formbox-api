@@ -1,9 +1,8 @@
 import { ConfigurationService } from '../../src/services/configuration.service';
-import { CommonService } from '../../src/services/common.service';
+import { injector } from '../helpers/init.spec';
 
 describe('ConfigurationService', () => {
-    const commonService = new CommonService();
-    const config = new ConfigurationService(commonService);
+    const config = injector.get(ConfigurationService);
 
     it('getFragments(): Promise<any> expects fragment list', function (done) {
         config.getFragments().then(result => {
