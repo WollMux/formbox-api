@@ -1,0 +1,18 @@
+{
+  "config": {
+    "url": "ldap://test.de",
+    "base": "c=de",
+    "dn": "user",
+    "password": "password"
+  },
+  "attributes": [
+    "givenName",
+    "sn",
+    "uid"
+  ],
+  "mapping": {
+    "Vorname": "givenName",
+    "Nachname": "sn",
+    "uid": "uid"
+  }
+}

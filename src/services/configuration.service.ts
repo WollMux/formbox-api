@@ -17,4 +17,8 @@ export class ConfigurationService {
   async getTemplates(): Promise<any> {
     return this.config.templates;
   }
+
+  getLDAP(name: string): any {
+    return this.config.ldap[ name ];
+  }
 }
