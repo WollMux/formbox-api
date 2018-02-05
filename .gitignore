@@ -45,5 +45,5 @@ Thumbs.db
 .scannerwork/
 
 # Tests
-test/.results/
+.testresults/
 .nyc_output

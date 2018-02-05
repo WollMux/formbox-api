@@ -18,7 +18,7 @@
       {
         "name": "jasmine-reporters#JUnitXmlReporter",
         "options": {
-          "savePath": "test/.results"
+          "savePath": ".testresults"
         }
       }
     ]

@@ -25,7 +25,7 @@ pipeline {
             }
             post {
                 always {
-                    junit '**/.results/*.xml'
+                    junit '.testresults/*.xml'
                     script {
                         if (GIT_BRANCH == 'master') {
                             withSonarQubeEnv('SonarQube') {
