@@ -3,8 +3,10 @@ import { Router } from 'express-serve-static-core';
 import { Logger } from 'ts-log-debug';
 import { ConfigurationService } from '../services/configuration.service';
 import * as asyncHandler from 'express-async-handler';
+import { isNullOrUndefined } from 'util';
+import { CommonService } from '../services/common.service';
 
-export function ConfigurationRouter(log: Logger, config: ConfigurationService): Router {
+export function ConfigurationRouter(log: Logger, config: ConfigurationService, common: CommonService): Router {
   log.debug('Initialisiere Configuration API.');
   const api = express.Router();
 
@@ -12,15 +14,30 @@ export function ConfigurationRouter(log: Logger, config: ConfigurationService): 
     res.json({ message: 'FormBox Configuration API' });
   }));
 
-  api.get('/fragmente/:name', asyncHandler(async (req, res, next) => {
+  api.get('/fragmente/:name/:base64?', asyncHandler(async (req, res, next) => {
     try {
         const name = req.params.name;
+        const toBase64 = req.params.base64;
 
-        if (name) {
+        if (isNullOrUndefined(name)) {
+          return res.json({ path: '' });
+        }
+
+        if (!isNullOrUndefined(toBase64) && toBase64 === 'true') {
           config.getFragment(name).then(base64String => {
             return res.json({ path: base64String });
           }).catch(err => {
             log.error(err);
+          });
+        } else {
+          config.getFragmentFilePath(name).then(filePath => {
+            return res.sendFile(filePath, { root: common.getAssetsFolder() }, function(err: any) {
+              if (err) {
+                log.error(err);
+
+                return res.status(err.status).end();
+              }
+            });
           });
         }
     } catch (err) {
@@ -53,20 +70,36 @@ export function ConfigurationRouter(log: Logger, config: ConfigurationService): 
     }
   }));
 
-  api.get('/vorlagen/:name', asyncHandler(async (req, res, next) => {
-    const name = req.params.name;
-
+  api.get('/vorlagen/:name/:base64?', asyncHandler(async (req, res, next) => {
     try {
-      if (name) {
-        config.getTemplate(name).then(template => {
-          res.json({ path: template });
+      const name = req.params.name;
+      const toBase64 = req.params.base64;
+      if (isNullOrUndefined(name)) {
+        return res.json({ path: '' });
+      }
+
+      if (!isNullOrUndefined(toBase64) && toBase64 === 'true') {
+        config.getTemplate(name).then(base64String => {
+          return res.json({ path: base64String });
+        }).catch(err => {
+          log.error(err);
+        });
+      } else {
+        config.getTemplateFilePath(name).then(filePath => {
+          return res.sendFile(filePath, { root: common.getAssetsFolder() }, function(err: any) {
+            if (err) {
+              log.error(err);
+
+              return res.status(err.status).end();
+            }
+          });
         });
       }
-    } catch (err) {
-      log.error(err);
-      next(err);
-    }
-  }));
+  } catch (err) {
+    log.error(err);
+    next(err);
+  }
+}));
 
   return api;
 }

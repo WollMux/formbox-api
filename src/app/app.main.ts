@@ -15,16 +15,19 @@ export class AppMain {
   private app: express.Application;
   private db: Router;
   private config: Router;
+  private status: Router;
 
   constructor( @Inject('Logger') log: Logger,
     @Inject('Application') app: express.Application,
     @Inject('DatabaseApi') db: Router,
-    @Inject('ConfigurationApi') config: Router) {
+    @Inject('ConfigurationApi') config: Router,
+    @Inject('StatusApi') status: Router ) {
 
     this.db = db;
     this.config = config;
     this.app = app;
     this.log = log;
+    this.status = status;
     this.log.debug('AppMain init.');
 
     this.configServer();
@@ -37,12 +40,13 @@ export class AppMain {
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(morgan('combined'));
-    this.app.use(cors({ optionsSuccessStatus: 200 }))
+    this.app.use(cors({ optionsSuccessStatus: 200 }));
   }
 
   setApiRoutes(): void {
     this.app.use('/db', this.db);
     this.app.use('/config', this.config);
+    this.app.use('/status', this.status);
   }
 
   setFSPathes(): void {

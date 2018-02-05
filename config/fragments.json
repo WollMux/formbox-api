@@ -1,11 +1,3 @@
 {
-	"Adresse_Angaben": "fragmente/Adresse_Angaben.docx",
-	"Email": "fragmente/Email.docx",
-	"Empfaengerfeld": "fragmente/Empfaengerfeld.docx",
-	"Fensterzeile": "fragmente/Fensterzeile.docx",
-	"Fusszeile_Dateinname": "fragmente/Fusszeile_Dateinname.docx",
-	"Fusszeile_Rahmen": "fragmente/Fusszeile_Rahmen.docx",
-	"Hauptabteilung": "fragmente/Hauptabteilung.docx",
-	"Logo": "fragmente/Logo.docx",
-	"Zusatz": "fragmente/Zusatz.docx"
+	"test": "fragmente/test.docx"
 }

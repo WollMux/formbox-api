@@ -11,6 +11,7 @@ import { DatabaseRouter } from './api/database.api';
 import { AppMain } from './app/app.main';
 import { ConfigurationService } from './services/configuration.service';
 import { CommonService } from './services/common.service';
+import { StatusRouter } from './api/status.api';
 
 dotenv.config();
 
@@ -43,7 +44,8 @@ const injector = ReflectiveInjector.resolveAndCreate([
   { provide: 'Logger', useValue: log },
   { provide: 'Application', useValue: app },
   { provide: 'DatabaseApi', useFactory: DatabaseRouter, deps: [ 'Logger' ] },
-  { provide: 'ConfigurationApi', useFactory: ConfigurationRouter, deps: [ 'Logger', ConfigurationService ] }
+  { provide: 'ConfigurationApi', useFactory: ConfigurationRouter, deps: [ 'Logger', ConfigurationService ] },
+  { provide: 'StatusApi', useFactory: StatusRouter, deps: [ 'Logger' ] }
 ]);
 
 // Startet die Anwendung über Dependency Injection.
