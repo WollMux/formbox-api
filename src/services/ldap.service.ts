@@ -3,8 +3,11 @@ import { ConfigurationService } from '../services/configuration.service';
 import SimpleLDAP from 'simple-ldap-search';
 import { Logger } from 'ts-log-debug';
 import { transform } from 'json-transformer-node';
-import { Request } from './request';
+import { Filter } from './filter';
 
+/**
+ * Schnittstelle für alle LDAP-Anfragen.
+ */
 @Injectable()
 export class LDAPService {
   private ldap: SimpleLDAP;
@@ -21,28 +24,36 @@ export class LDAPService {
     this.ldap = new SimpleLDAP(conf);
   }
 
-  search(query: Request): Promise<any> {
+  /**
+   * Stellt eine LDAP-Anfrage und transformiert die Attribute.
+   * @param filter Die Filterbelegung für die LDAP-Anfrage. Es wird nur nach givenName, sn, uid und ou gesucht.
+   */
+  search(filter: Filter): Promise<any> {
     const attributes = this.config.getLDAP('attributes');
     const transformer = { mapping: { list: 'res', item: this.config.getLDAP('mapping') }};
 
-    return this.ldap.search(this.buildFilter(query), attributes).then((res, rej) => {
+    return this.ldap.search(this.buildFilter(filter), attributes).then((res, rej) => {
       return transform({res: res}, transformer);
     });
   }
 
-  buildFilter = (query: Request): string => {
+  /**
+   * Baut aus den Werten eine UND-Verknüpften LDAP-Filter.
+   * @param values Die Filterbelegung für die LDAP-Anfrage. Es wird nur nach givenName, sn, uid und ou gesucht.
+   */
+  buildFilter = (values: Filter): string => {
     let filter = '(&##)';
-    if (query.vorname) {
-      filter = filter.replace('##', `(givenName=*${query.vorname}*)##`);
+    if (values.vorname) {
+      filter = filter.replace('##', `(givenName=*${values.vorname}*)##`);
     }
-    if (query.nachname) {
-      filter = filter.replace('##', `(sn=*${query.nachname}*)##`);
+    if (values.nachname) {
+      filter = filter.replace('##', `(sn=*${values.nachname}*)##`);
     }
-    if (query.uid) {
-      filter = filter.replace('##', `(uid=*${query.uid}*)##`);
+    if (values.uid) {
+      filter = filter.replace('##', `(uid=*${values.uid}*)##`);
     }
-    if (query.ou) {
-      filter = filter.replace('##', `(ou=*${query.ou}*)##`);
+    if (values.ou) {
+      filter = filter.replace('##', `(ou=*${values.ou}*)##`);
     }
     filter = filter.replace('##', '');
 

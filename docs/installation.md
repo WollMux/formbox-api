@@ -48,6 +48,7 @@ Der Pfad des Privaten Schlüssels und der Zertifikatsdatei muss in der Konfigura
 
 
 #### Applikation starten:
+Die Konfigurationsmöglichkeiten sind [hier](konfiguration.md) zu finden.
 
 ```
 npm start
