@@ -7,6 +7,10 @@ pipeline {
 
     tools {nodejs 'node6.11.3'}
 
+    environment {
+        DISABLE_SSL = 'true'
+    }
+
     stages {
         stage('Build') {
             steps {

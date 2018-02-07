@@ -6,6 +6,7 @@ import { Inject, Injectable } from 'injection-js';
 import * as path from 'path';
 import * as filesystem from 'fs';
 import * as https from 'https';
+import * as http from 'http';
 import * as morgan from 'morgan';
 import * as cors from 'cors';
 
@@ -23,7 +24,7 @@ export class AppMain {
     @Inject('DatabaseApi') db: Router,
     @Inject('DocumentApi') document: Router,
     @Inject('ConfigurationApi') configuration: Router,
-    @Inject('StatusApi') status: Router ) {
+    @Inject('StatusApi') status: Router) {
 
     this.db = db;
     this.document = document;
@@ -35,7 +36,12 @@ export class AppMain {
 
     this.configServer();
     this.setApiRoutes();
-    this.startServer(this.readCertificates());
+
+    if (process.env.DISABLE_SSL) {
+      this.startHTTPServer();
+    } else {
+      this.startServer(this.readCertificates());
+    }
   }
 
   configServer(): void {
@@ -63,11 +69,20 @@ export class AppMain {
   }
 
   startServer(serverOptions: https.ServerOptions): void {
-    this.log.debug('Starte Server.');
+    this.log.debug('Starte HTTPS Server.');
 
     const httpsServer = https.createServer(serverOptions, this.app);
     httpsServer.listen(this.app.get('port'), process.env.HOST, () => {
       this.log.info(('App is running at https://%s:%d.'), process.env.HOST, this.app.get('port'));
+    });
+  }
+
+  startHTTPServer(): void {
+    this.log.debug('Starte HTTP Server.');
+
+    const httpServer = http.createServer(this.app);
+    httpServer.listen(this.app.get('port'), process.env.HOST, () => {
+      this.log.info(('App is running at http://%s:%d.'), process.env.HOST, this.app.get('port'));
     });
   }
 }
