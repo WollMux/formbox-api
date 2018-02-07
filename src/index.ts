@@ -6,12 +6,14 @@ import * as express from 'express';
 import { ReflectiveInjector } from 'injection-js';
 import { Logger } from 'ts-log-debug';
 
-import { ConfigurationRouter } from './api/configuration.api';
+import { DocumentRouter } from './api/document.api';
 import { DatabaseRouter } from './api/database.api';
 import { AppMain } from './app/app.main';
 import { ConfigurationService } from './services/configuration.service';
+import { DocumentService } from './services/document.service';
 import { CommonService } from './services/common.service';
 import { StatusRouter } from './api/status.api';
+import { ConfigurationRouter } from './api/config.api';
 
 dotenv.config();
 
@@ -40,11 +42,13 @@ log.debug(__dirname);
 const injector = ReflectiveInjector.resolveAndCreate([
   AppMain,
   ConfigurationService,
+  DocumentService,
   CommonService,
   { provide: 'Logger', useValue: log },
   { provide: 'Application', useValue: app },
   { provide: 'DatabaseApi', useFactory: DatabaseRouter, deps: [ 'Logger' ] },
   { provide: 'ConfigurationApi', useFactory: ConfigurationRouter, deps: [ 'Logger', ConfigurationService ] },
+  { provide: 'DocumentApi', useFactory: DocumentRouter, deps: [ 'Logger', CommonService, DocumentService ] },
   { provide: 'StatusApi', useFactory: StatusRouter, deps: [ 'Logger' ] }
 ]);
 

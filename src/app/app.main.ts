@@ -14,20 +14,23 @@ export class AppMain {
   private log: Logger;
   private app: express.Application;
   private db: Router;
-  private config: Router;
+  private document: Router;
   private status: Router;
+  private configuration: Router;
 
   constructor( @Inject('Logger') log: Logger,
     @Inject('Application') app: express.Application,
     @Inject('DatabaseApi') db: Router,
-    @Inject('ConfigurationApi') config: Router,
+    @Inject('DocumentApi') document: Router,
+    @Inject('ConfigurationApi') configuration: Router,
     @Inject('StatusApi') status: Router ) {
 
     this.db = db;
-    this.config = config;
+    this.document = document;
     this.app = app;
     this.log = log;
     this.status = status;
+    this.configuration = configuration;
     this.log.debug('AppMain init.');
 
     this.configServer();
@@ -45,13 +48,9 @@ export class AppMain {
 
   setApiRoutes(): void {
     this.app.use('/db', this.db);
-    this.app.use('/config', this.config);
+    this.app.use('/document', this.document);
+    this.app.use('/config', this.configuration);
     this.app.use('/status', this.status);
-  }
-
-  setFSPathes(): void {
-    this.app.use(`/${process.env.ASSETS}/fragmente`, express.static(path.join(process.env.ASSETS, '/fragmente')));
-    this.app.use(`/${process.env.ASSETS}/vorlagen`, express.static(path.join(process.env.ASSETS, '/vorlagen')));
   }
 
   readCertificates(): https.ServerOptions {
