@@ -10,8 +10,8 @@ export function ConfigurationRouter(log: Logger, config: ConfigurationService): 
 
   api.get('/fragmente', asyncHandler(async (req, res, next) => {
     try {
-      config.getFragments().then(result => {
-        return res.json({ fragmentList: result });
+      config.getFragments().then(fragments => {
+        return res.json(Object.keys(fragments));
       }).catch((err: any) => {
         log.error(err);
       });

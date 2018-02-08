@@ -16,12 +16,12 @@ export function DocumentRouter(log: Logger, common: CommonService, document: Doc
         const toBase64 = req.query.base64;
 
         if (isNullOrUndefined(name)) {
-          return res.json({ path: '' });
+          return res.json({ base64: '' });
         }
 
         if (!isNullOrUndefined(toBase64) && toBase64 === 'true') {
           document.getFragment(name).then(base64String => {
-            return res.json({ path: base64String });
+            return res.json({ base64: base64String });
           }).catch(err => {
             log.error(err);
           });
@@ -50,12 +50,12 @@ export function DocumentRouter(log: Logger, common: CommonService, document: Doc
       const toBase64 = req.query.base64;
 
       if (isNullOrUndefined(name)) {
-        return res.json({ path: '' });
+        return res.json({ base64: '' });
       }
 
       if (!isNullOrUndefined(toBase64) && toBase64 === 'true') {
         document.getTemplate(name).then(base64String => {
-          return res.json({ path: base64String });
+          return res.json({ base64: base64String });
         }).catch(err => {
           log.error(err);
         });
