@@ -5,4 +5,5 @@ formbox-api basiert auf einer NodeJs-Express REST-API und stellt erforderliche P
 ## Dokumentation
 * [Git](docs/git.md)
 * [Installation](docs/installation.md)
+* [API-Referenz](docs/api-reference.md)
 * [Programmierrichtlinien](docs/CONTRIBUTING.md)
