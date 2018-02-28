@@ -13,7 +13,6 @@ import { ConfigurationService } from './services/configuration.service';
 import { DocumentService } from './services/document.service';
 import { CommonService } from './services/common.service';
 import { StatusRouter } from './api/status.api';
-import { ConfigurationRouter } from './api/config.api';
 import { LDAPService } from './services/ldap.service';
 
 dotenv.config();
@@ -49,8 +48,7 @@ const injector = ReflectiveInjector.resolveAndCreate([
   { provide: 'Logger', useValue: log },
   { provide: 'Application', useValue: app },
   { provide: 'DatabaseApi', useFactory: DatabaseRouter, deps: [ 'Logger', LDAPService ] },
-  { provide: 'ConfigurationApi', useFactory: ConfigurationRouter, deps: [ 'Logger', ConfigurationService ] },
-  { provide: 'DocumentApi', useFactory: DocumentRouter, deps: [ 'Logger', CommonService, DocumentService ] },
+  { provide: 'DocumentApi', useFactory: DocumentRouter, deps: [ 'Logger', CommonService, DocumentService, ConfigurationService ] },
   { provide: 'StatusApi', useFactory: StatusRouter, deps: [ 'Logger' ] }
 ]);
 

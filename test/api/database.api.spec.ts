@@ -3,33 +3,39 @@ import { AppMain } from '../../src/app/app.main';
 import { injector } from '../helpers/init.spec';
 import { LDAPService } from '../../src/services/ldap.service';
 
+let resCount = 0;
+
+const requestFinished = (done) => {
+  resCount++;
+
+  if (resCount == 2) {
+    done();
+  }
+}
+
 describe('Database API', () => {
-    const appMain = injector.get(AppMain).app;
-    const ldap = injector.get(LDAPService);
-    let ldapResponse;
+  const appMain = injector.get(AppMain).app;
+  const ldap = injector.get(LDAPService);
+  let ldapResponse;
 
-    beforeAll(done => {
-      spyOn(ldap, 'search');
+  beforeAll(done => {
+    spyOn(ldap, 'search');
 
-      request(appMain)
-      .get('/db/ldap')
-      .end((error, response) => {
-        ldapResponse = response.body;
-        done();
-      });
-
-      request(appMain)
-      .get('/db/ldap?uid=max.mustermann')
-      .end((error, response) => {
-        done();
-      });
+    request(appMain).get('/db/ldap').end((error, response) => {
+      ldapResponse = response.body;
+      requestFinished(done);
     });
 
-    it('GET /db/ldap', () => {
-      expect(ldapResponse).toEqual([]);
+    request(appMain).get('/db/ldap?uid=max.mustermann').end((error, response) => {
+      requestFinished(done);
     });
+  });
 
-    it('GET /db/ldap?uid=max.mustermann', () => {
-      expect(ldap.search).toHaveBeenCalledWith({uid: 'max.mustermann'});
-    });
+  it('GET /db/ldap', () => {
+    expect(ldapResponse).toEqual([]);
+  });
+
+  it('GET /db/ldap?uid=max.mustermann', () => {
+    expect(ldap.search).toHaveBeenCalledWith({uid: 'max.mustermann'});
+  });
 });
