@@ -1,6 +1,6 @@
 import { Inject, Injectable } from 'injection-js';
 import { ConfigurationService } from '../services/configuration.service';
-import SimpleLDAP from 'simple-ldap-search';
+import SimpleLDAPSearch from 'simple-ldap-search';
 import { Logger } from 'ts-log-debug';
 import { transform } from 'json-transformer-node';
 import { Filter } from './filter';
@@ -10,7 +10,7 @@ import { Filter } from './filter';
  */
 @Injectable()
 export class LDAPService {
-  private ldap: SimpleLDAP;
+  private ldap: SimpleLDAPSearch;
   private config: ConfigurationService;
   private log: Logger;
 
@@ -21,7 +21,12 @@ export class LDAPService {
     const conf = this.config.getLDAP('config');
     conf.dn = process.env.LDAP_DN || conf.dn;
     conf.password = process.env.LDAP_PASSWORD || conf.password;
-    this.ldap = new SimpleLDAP(conf);
+    this.ldap = new SimpleLDAPSearch(conf);
+    this.ldap.bindDN().then(res => {
+      // nothing to do
+    }).catch(rej => {
+      this.log.debug(rej);
+    });
   }
 
   /**

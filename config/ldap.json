@@ -1,6 +1,6 @@
 {
   "config": {
-    "url": "ldap://test.de",
+    "url": "ldap://formbox-ldap-test.de",
     "base": "c=de",
     "dn": "user",
     "password": "password"

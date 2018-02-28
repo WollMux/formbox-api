@@ -19,7 +19,7 @@ describe('ConfigurationService', () => {
     });
 
     it('getLDAP()', () => {
-        expect(config.getLDAP('config').url).toBe('ldap://test.de');
+        expect(config.getLDAP('config').url).toBe('ldap://formbox-ldap-test.de');
         expect(config.getLDAP('attributes')).toContain('givenName');
         expect(config.getLDAP('mapping').Vorname).toBe('givenName');
     })
