@@ -21,7 +21,9 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-                sh 'npm run test'
+                withEnv(['HOST=localhost', 'PORT=4201', 'ASSETS=assets', 'CONFIG=config', 'DISABLE_SSL=true']) {
+                    sh 'npm run test'
+                }
             }
             post {
                 always {
