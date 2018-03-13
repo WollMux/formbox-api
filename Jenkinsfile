@@ -21,7 +21,7 @@ pipeline {
 
     stage('Quality Gate') {
       steps {
-        withEnv(['HOST=localhost', 'PORT=4201', 'ASSETS=assets', 'CONFIG=config', 'DISABLE_SSL=true']) {
+        withEnv(['HOST=localhost', 'PORT=4301', 'ASSETS=assets', 'CONFIG=config', 'DISABLE_SSL=true']) {
           sh 'npm run test'
         }
       }
@@ -62,8 +62,6 @@ pipeline {
       steps {
         sh '''npm pack
           mv formbox-api*.tgz /srv/formbox-api
-          cd /srv/formbox-standard-config
-          git pull
           cd /srv/formbox-api
           npm install formbox-api*.tgz
           pm2 restart formbox-api'''
