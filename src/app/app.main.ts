@@ -47,6 +47,11 @@ export class AppMain {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(morgan('combined'));
     this.app.use(cors({ optionsSuccessStatus: 200 }));
+
+    if (process.env.FILESERVER) {
+      this.app.use('/assets/fragmente', express.static(path.join(process.env.ASSETS, '/fragmente')));
+      this.app.use('/assets/vorlagen', express.static(path.join(process.env.ASSETS, '/vorlagen')));
+    }
   }
 
   setApiRoutes(): void {

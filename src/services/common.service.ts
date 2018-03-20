@@ -5,7 +5,7 @@ import * as fs from 'fs';
 @Injectable()
 export class CommonService {
 
-  async getAssetsFolder(): Promise<string> {
+  getAssetsFolder(): string {
     return process.env.ASSETS;
   }
 

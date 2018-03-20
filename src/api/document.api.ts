@@ -8,10 +8,10 @@ import { DocumentService } from '../services/document.service';
 import { ConfigurationService } from '../services/configuration.service';
 
 export function DocumentRouter(
-    log: Logger,
-    common: CommonService,
-    document: DocumentService,
-    config: ConfigurationService ): Router {
+  log: Logger,
+  common: CommonService,
+  document: DocumentService,
+  config: ConfigurationService): Router {
   log.debug('Initialisiere Document API.');
   const api = express.Router();
 
@@ -41,71 +41,28 @@ export function DocumentRouter(
 
   api.get('/fragmente/:name', asyncHandler(async (req, res, next) => {
     try {
-        const name = req.params.name;
-        const toBase64 = req.query.base64;
+      const name = req.params.name;
+      const p = `${common.getAssetsFolder()}/${document.getFragmentFilePath(name)}`;
 
-        if (isNullOrUndefined(name)) {
-          return res.json({ base64: '' });
-        }
-
-        if (!isNullOrUndefined(toBase64) && toBase64 === 'true') {
-          document.getFragment(name).then(base64String => {
-            return res.json({ base64: base64String });
-          }).catch(err => {
-            log.error(err);
-          });
-        } else {
-          document.getFragmentFilePath(name).then(filePath => {
-            return common.getAssetsFolder().then(assetsFolderPath => {
-              return res.sendFile(filePath, { root: assetsFolderPath }, (err): any => {
-                if (err) {
-                  log.error(err);
-
-                  return res.status(err.status).end();
-                }
-              });
-            });
-          });
-        }
+      return res.json(p);
     } catch (err) {
       log.error(err);
       next(err);
     }
+
   }));
 
   api.get('/vorlagen/:name', asyncHandler(async (req, res, next) => {
     try {
       const name = req.params.name;
-      const toBase64 = req.query.base64;
+      const p = `${common.getAssetsFolder()}/${document.getTemplateFilePath(name)}`;
 
-      if (isNullOrUndefined(name)) {
-        return res.json({ base64: '' });
-      }
-
-      if (!isNullOrUndefined(toBase64) && toBase64 === 'true') {
-        document.getTemplate(name).then(base64String => {
-          return res.json({ base64: base64String });
-        }).catch(err => {
-          log.error(err);
-        });
-      } else {
-        document.getTemplateFilePath(name).then(filePath => {
-          return common.getAssetsFolder().then(assetsFolderPath => {
-            return res.sendFile(filePath, { root: assetsFolderPath }, (err): any => {
-              if (err) {
-                log.error(err);
-
-                return res.status(err.status).end();
-              }
-            });
-          });
-        });
-      }
-  } catch (err) {
-    log.error(err);
-    next(err);
-  }
-}));
+      return res.json(p);
+    } catch (err) {
+      log.error(err);
+      next(err);
+    }
+  }));
 
   return api;
 }
