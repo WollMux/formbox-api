@@ -9,6 +9,7 @@ import * as https from 'https';
 import * as http from 'http';
 import * as morgan from 'morgan';
 import * as cors from 'cors';
+import * as asyncHandler from 'express-async-handler';
 
 @Injectable()
 export class AppMain {
@@ -47,6 +48,17 @@ export class AppMain {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(morgan('combined'));
     this.app.use(cors({ optionsSuccessStatus: 200 }));
+
+    // Nie einen Statuscode 304 senden, Formbox kommt damit nicht zu Recht
+    this.app.get('/*', asyncHandler(async (req, res, next) => {
+      try {
+        res.setHeader('Last-Modified', (new Date()).toUTCString());
+        next();
+      } catch (err) {
+        this.log.error(err);
+        next();
+      }
+    }));
 
     if (process.env.FILESERVER) {
       this.app.use('/assets/fragmente', express.static(path.join(process.env.ASSETS, '/fragmente')));
