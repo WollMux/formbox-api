@@ -8,6 +8,7 @@ import { Logger } from 'ts-log-debug';
 
 import { DocumentRouter } from './api/document.api';
 import { DatabaseRouter } from './api/database.api';
+import { FormboxBarRouter } from './api/formboxbar.api';
 import { AppMain } from './app/app.main';
 import { ConfigurationService } from './services/configuration.service';
 import { CommonService } from './services/common.service';
@@ -47,6 +48,7 @@ const injector = ReflectiveInjector.resolveAndCreate([
   { provide: 'Application', useValue: app },
   { provide: 'DatabaseApi', useFactory: DatabaseRouter, deps: ['Logger', LDAPService] },
   { provide: 'DocumentApi', useFactory: DocumentRouter, deps: ['Logger', CommonService, ConfigurationService] },
+  { provide: 'FormboxBarApi', useFactory: FormboxBarRouter, deps: [ 'Logger', ConfigurationService ] },
   { provide: 'StatusApi', useFactory: StatusRouter, deps: ['Logger'] }
 ]);
 

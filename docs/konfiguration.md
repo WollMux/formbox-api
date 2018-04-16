@@ -20,3 +20,11 @@ Alternativ können die Umgebungsvariablen
 * LDAP_PASSWORD: Passwort des LDAP-User
 
 verwendet werden, um die Suchanfragen zu personalisieren.
+
+## FormboxBar
+In der Datei formboxbar.json wird das Layout der FormboxBar festgelegt. Dabei ist das Format entscheidendt. Auf oberster Ebene ist ein JSON-Array, dass dann die Definitionen der verschiedenen Ordner und Vorlagen (JSON-Objekte) enthält. Jedes Objekt muss die folgenden Attirbute haben:
+| Attribut | Typ | Vorlage | Ordner |
+| -------- | --- | ------- | ------ |
+| `"template"` | String | Entspricht der Template-ID | egal, sollte eindeutig sein |
+| `"name"` | String | Anzeigename | Anzeigename |
+| `"children"` | JSON-Array | Wenn dieses Attribut vorhanden ist, handelt es sich um einen Ordner | Das JSON-Array kann wiederum JSON-Objekte enthalten, die dann die Einträge im Ordner repräsentieren |

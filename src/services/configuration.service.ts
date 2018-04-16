@@ -29,4 +29,8 @@ export class ConfigurationService {
   getLDAP(name: string): any {
     return this.config.ldap[name];
   }
+
+  getFormboxBar(): any {
+    return this.config.formboxbar;
+  }
 }

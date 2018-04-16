@@ -1,0 +1,32 @@
+[
+	{
+		"template": "standard",
+		"name": "Standard",
+		"children": [
+			{
+				"template": "test",
+				"name": "Test"
+			},
+			{
+				"template": "mischvorlagen",
+				"name": "Mischvorlagen",
+				"children": [
+					{
+						"template": "test",
+						"name": "Test"
+					}
+				]
+			}
+		]
+	},
+	{
+		"template": "formulare",
+		"name": "Formulare",
+		"children": [
+			{
+				"template": "test",
+				"name": "Test als Formular"
+			}
+		]
+	}
+]

@@ -23,6 +23,7 @@ export class AppMain {
     @Inject('Application') app: express.Application,
     @Inject('DatabaseApi') db: Router,
     @Inject('DocumentApi') document: Router,
+    @Inject('FormboxBarApi') private formboxBar: Router,
     @Inject('StatusApi') status: Router) {
 
     this.db = db;
@@ -69,6 +70,7 @@ export class AppMain {
   setApiRoutes(): void {
     this.app.use('/db', this.db);
     this.app.use('/document', this.document);
+    this.app.use('/formboxbar', this.formboxBar);
     this.app.use('/status', this.status);
   }
 

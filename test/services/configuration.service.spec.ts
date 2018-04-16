@@ -27,4 +27,8 @@ describe('ConfigurationService', () => {
     expect(config.getLDAP('attributes')).toContain('givenName');
     expect(config.getLDAP('mapping').Vorname).toBe('givenName');
   });
+
+  it('getFormboxBar()', () => {
+    expect(config.getFormboxBar().length).toBe(2);
+  });
 });

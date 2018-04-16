@@ -47,3 +47,9 @@ Response:
 JSON {"base64":"UEsDBBQAAAgAAKRreEtexjIMJwAAACcAAAAIAAAAbWltZXR5cGVhcHBsaWNhdGlvbi92bmQub2FzaXMub3BlbmRv"}
 ```
 
+## FormboxBar
+```
+GET https://localhost:4201/formboxbar
+```
+Response:
+Der Inhalt der Datei formboxbar.json
