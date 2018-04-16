@@ -15,11 +15,7 @@ export function DocumentRouter(
 
   api.get('/fragmente', asyncHandler(async (req, res, next) => {
     try {
-      config.getFragments().then(fragments => {
-        return res.json(Object.keys(fragments));
-      }).catch((err: any) => {
-        log.error(err);
-      });
+      return res.json(Object.keys(config.getFragments()));
     } catch (err) {
       log.error(err);
       next(err);
@@ -28,9 +24,7 @@ export function DocumentRouter(
 
   api.get('/vorlagen', asyncHandler(async (req, res, next) => {
     try {
-      config.getTemplates().then(templates => {
-        res.json(Object.keys(templates));
-      });
+      res.json(Object.keys(config.getTemplates()));
     } catch (err) {
       log.error(err);
       next(err);

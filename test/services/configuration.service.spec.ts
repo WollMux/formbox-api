@@ -4,18 +4,12 @@ import { injector } from '../helpers/init.spec';
 describe('ConfigurationService', () => {
   const config: ConfigurationService = injector.get(ConfigurationService);
 
-  it('getFragments(): Promise<any> expects fragment list', done => {
-    config.getFragments().then(result => {
-      expect(result).toEqual(jasmine.objectContaining({ test: 'fragmente/test.docx' }));
-      done();
-    });
+  it('getFragments() expects fragment list', () => {
+    expect(config.getFragments()).toEqual(jasmine.objectContaining({ test: 'fragmente/test.docx' }));
   });
 
-  it('getTemplates(): Promise<any> expects template list', done => {
-    config.getTemplates().then(result => {
-      expect(result).toEqual(jasmine.objectContaining({ test: 'vorlagen/test.docx' }));
-      done();
-    });
+  it('getTemplates() expects template list', () => {
+    expect(config.getTemplates()).toEqual(jasmine.objectContaining({ test: 'vorlagen/test.docx' }));
   });
 
   it('getFragmentFilePath(name: string) valid parameter, expect relative file path', () => {

@@ -10,11 +10,11 @@ export class ConfigurationService {
     consign({ cwd: process.env.CONFIG }).include('.').into(this.config);
   }
 
-  async getFragments(): Promise<any> {
+  getFragments(): any {
     return this.config.fragments;
   }
 
-  async getTemplates(): Promise<any> {
+  getTemplates(): any {
     return this.config.templates;
   }
 
