@@ -1,3 +1,4 @@
+// tslint:disable-next-line:no-implicit-dependencies
 import * as request from 'supertest';
 import { AppMain } from '../../src/app/app.main';
 import { injector } from '../helpers/init.spec';
@@ -5,13 +6,13 @@ import { LDAPService } from '../../src/services/ldap.service';
 
 let resCount = 0;
 
-const requestFinished = (done) => {
+const requestFinished = done => {
   resCount++;
 
-  if (resCount == 2) {
+  if (resCount === 2) {
     done();
   }
-}
+};
 
 describe('Database API', () => {
   const appMain = injector.get(AppMain).app;

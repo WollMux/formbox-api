@@ -23,5 +23,5 @@ describe('LDAPService', () => {
   it('buildFilter', () => {
     expect(ldap.buildFilter({uid: 'm.m'})).toBe('(&(uid=*m.m*))');
     expect(ldap.buildFilter({vorname: 'Max', nachname: 'Mustermann', ou: 'test'})).toBe('(&(givenName=*Max*)(sn=*Mustermann*)(ou=*test*))');
-  })
+  });
 });
