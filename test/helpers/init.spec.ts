@@ -10,10 +10,10 @@ import { DocumentRouter } from '../../src/api/document.api';
 import { DatabaseRouter } from '../../src/api/database.api';
 import { AppMain } from '../../src/app/app.main';
 import { ConfigurationService } from '../../src/services/configuration.service';
-import { DocumentService } from '../../src/services/document.service';
 import { CommonService } from '../../src/services/common.service';
 import { StatusRouter } from '../../src/api/status.api';
 import { LDAPService } from '../../src/services/ldap.service';
+import * as path from 'path';
 
 dotenv.config();
 
@@ -23,7 +23,7 @@ const log = new Logger('FormBoxApi');
 
 log.appenders
   .set('stdout', {
-    levels: [ 'debug', 'info', 'trace' ],
+    levels: ['debug', 'info', 'trace'],
     type: 'stdout'
   })
   .set('stderr', {
@@ -31,23 +31,22 @@ log.appenders
       pattern: '%d %p %c %X{user} %m%n',
       type: 'pattern'
     },
-    levels: [ 'fatal', 'error', 'warn' ],
+    levels: ['fatal', 'error', 'warn'],
     type: 'stderr'
   });
 
-log.debug(__dirname);
+process.env.CONFIG = path.join(__dirname, '../config');
 
 // Hier müssen alle Klassen eingetragen werden,
 // die injiziert werden sollen.
 export const injector = ReflectiveInjector.resolveAndCreate([
   AppMain,
   ConfigurationService,
-  DocumentService,
   CommonService,
   LDAPService,
   { provide: 'Logger', useValue: log },
   { provide: 'Application', useValue: app },
-  { provide: 'DatabaseApi', useFactory: DatabaseRouter, deps: [ 'Logger', LDAPService ] },
-  { provide: 'DocumentApi', useFactory: DocumentRouter, deps: [ 'Logger', CommonService, DocumentService, ConfigurationService ] },
-  { provide: 'StatusApi', useFactory: StatusRouter, deps: [ 'Logger' ] }
+  { provide: 'DatabaseApi', useFactory: DatabaseRouter, deps: ['Logger', LDAPService] },
+  { provide: 'DocumentApi', useFactory: DocumentRouter, deps: ['Logger', CommonService, ConfigurationService] },
+  { provide: 'StatusApi', useFactory: StatusRouter, deps: ['Logger'] }
 ]);

@@ -10,7 +10,6 @@ import { DocumentRouter } from './api/document.api';
 import { DatabaseRouter } from './api/database.api';
 import { AppMain } from './app/app.main';
 import { ConfigurationService } from './services/configuration.service';
-import { DocumentService } from './services/document.service';
 import { CommonService } from './services/common.service';
 import { StatusRouter } from './api/status.api';
 import { LDAPService } from './services/ldap.service';
@@ -23,7 +22,7 @@ const log = new Logger('FormBoxApi');
 
 log.appenders
   .set('stdout', {
-    levels: [ 'debug', 'info', 'trace' ],
+    levels: ['debug', 'info', 'trace'],
     type: 'stdout'
   })
   .set('stderr', {
@@ -31,7 +30,7 @@ log.appenders
       pattern: '%d %p %c %X{user} %m%n',
       type: 'pattern'
     },
-    levels: [ 'fatal', 'error', 'warn' ],
+    levels: ['fatal', 'error', 'warn'],
     type: 'stderr'
   });
 
@@ -42,14 +41,13 @@ log.debug(__dirname);
 const injector = ReflectiveInjector.resolveAndCreate([
   AppMain,
   ConfigurationService,
-  DocumentService,
   CommonService,
   LDAPService,
   { provide: 'Logger', useValue: log },
   { provide: 'Application', useValue: app },
-  { provide: 'DatabaseApi', useFactory: DatabaseRouter, deps: [ 'Logger', LDAPService ] },
-  { provide: 'DocumentApi', useFactory: DocumentRouter, deps: [ 'Logger', CommonService, DocumentService, ConfigurationService ] },
-  { provide: 'StatusApi', useFactory: StatusRouter, deps: [ 'Logger' ] }
+  { provide: 'DatabaseApi', useFactory: DatabaseRouter, deps: ['Logger', LDAPService] },
+  { provide: 'DocumentApi', useFactory: DocumentRouter, deps: ['Logger', CommonService, ConfigurationService] },
+  { provide: 'StatusApi', useFactory: StatusRouter, deps: ['Logger'] }
 ]);
 
 // Startet die Anwendung über Dependency Injection.

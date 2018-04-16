@@ -18,7 +18,15 @@ export class ConfigurationService {
     return this.config.templates;
   }
 
+  getFragmentFilePath(name: string): string {
+    return `${this.config.fragments[name]}`;
+  }
+
+  getTemplateFilePath(name: string): string {
+    return `${this.config.templates[name]}`;
+  }
+
   getLDAP(name: string): any {
-    return this.config.ldap[ name ];
+    return this.config.ldap[name];
   }
 }

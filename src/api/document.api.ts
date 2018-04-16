@@ -4,13 +4,11 @@ import { Logger } from 'ts-log-debug';
 import * as asyncHandler from 'express-async-handler';
 import { isNullOrUndefined } from 'util';
 import { CommonService } from '../services/common.service';
-import { DocumentService } from '../services/document.service';
 import { ConfigurationService } from '../services/configuration.service';
 
 export function DocumentRouter(
   log: Logger,
   common: CommonService,
-  document: DocumentService,
   config: ConfigurationService): Router {
   log.debug('Initialisiere Document API.');
   const api = express.Router();
@@ -42,7 +40,7 @@ export function DocumentRouter(
   api.get('/fragmente/:name', asyncHandler(async (req, res, next) => {
     try {
       const name = req.params.name;
-      const p = `${common.getAssetsFolder()}/${document.getFragmentFilePath(name)}`;
+      const p = `${common.getAssetsFolder()}/${config.getFragmentFilePath(name)}`;
 
       return res.json(p);
     } catch (err) {
@@ -55,7 +53,7 @@ export function DocumentRouter(
   api.get('/vorlagen/:name', asyncHandler(async (req, res, next) => {
     try {
       const name = req.params.name;
-      const p = `${common.getAssetsFolder()}/${document.getTemplateFilePath(name)}`;
+      const p = `${common.getAssetsFolder()}/${config.getTemplateFilePath(name)}`;
 
       return res.json(p);
     } catch (err) {
