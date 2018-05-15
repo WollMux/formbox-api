@@ -5,7 +5,7 @@
 * [NodeJs](https://nodejs.org/de/) - NodeJs
 * [OpenSSL](https://www.openssl.org/source/) - OpenSSL um Zertifikate zu generieren.
 
- 
+
 ## Projekt starten
 
 ### Abhängigkeiten installieren
@@ -48,6 +48,25 @@ openssl x509 -req -days 365 -in server.csr -signkey server.key -out server.crt
 
 Der Pfad des Privaten Schlüssels und der Zertifikatsdatei muss in der Konfigurationsdatei (.env) korrekt gesetzt sein.
 Standardmäßig müssen die generierten Zertifikate nach "*/formbox-api/certs/" kopiert werden.
+
+#### Zertifikat in Zertifikatspeicher importieren
+
+Abschließend muss das Zertifikat in den Zertifikatsspeicher für vertrauenswürdige Root-Zertifikate importiert werden.
+
+Windows:
+Eingabeaufforderung als Administrator starten und
+
+```
+certutil -addstore -f "ROOT" server.crt
+```
+ausführen.
+
+Linux (Ubuntu, Debian):
+
+```
+sudo cp server.crt /usr/local/share/ca-certificates
+sudo update-ca-certificates
+```
 
 #### Applikation starten:
 Die Konfigurationsmöglichkeiten sind [hier](konfiguration.md) zu finden.
