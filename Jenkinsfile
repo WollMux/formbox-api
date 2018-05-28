@@ -21,8 +21,18 @@ pipeline {
 
     stage('Quality Gate') {
       steps {
-        withEnv(['HOST=localhost', 'PORT=4301', 'ASSETS=assets', 'CONFIG=config', 'DISABLE_SSL=true']) {
-          sh 'npm run test'
+        withEnv(['HOST=localhost', 'ASSETS=assets', 'CONFIG=config', 'DISABLE_SSL=true']) {
+          sh '''#!/bin/bash
+          CHECK="init"
+          while [ -n "$CHECK" ]; do
+            PORT=$(shuf -i 50000-51000 -n 1)
+            CHECK=$(netstat -a)
+            if [[ $CHECK != *"$PORT"* ]]; then
+              CHECK=""
+            fi
+          done
+          npm run test
+          '''
         }
       }
       post {
